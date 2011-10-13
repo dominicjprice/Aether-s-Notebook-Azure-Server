@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="aethersnotebook" EntityNamespace="Aethers.Notebook.Model" ContextNamespace="Aethers.Notebook.DataAccess" Class="ModelDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.CdmaCellLocation" Member="CdmaCellLocations">
+    <Type Name="CdmaCellLocation">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="baseStationId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="baseStationLatitude" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="baseStationLongitude" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="networkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="systemId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="neighbouringCellsID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_CdmaCellLocation" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="NeighbouringCells_CdmaCellLocation" Member="NeighbouringCells" ThisKey="neighbouringCellsID" OtherKey="ID" Type="NeighbouringCells" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GsmCellLocation" Member="GsmCellLocations">
+    <Type Name="GsmCellLocation">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="lac" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="neighbouringCellsID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_GsmCellLocation" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="NeighbouringCells_GsmCellLocation" Member="NeighbouringCells" ThisKey="neighbouringCellsID" OtherKey="ID" Type="NeighbouringCells" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DataConnectionState" Member="DataConnectionStates">
+    <Type Name="DataConnectionState">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="state" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="networkType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_DataConnectionState" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Location" Member="Locations">
+    <Type Name="Location">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="positionBinary" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="accuracy" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="altitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="bearing" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="extras" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="provider" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="speed" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="time" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="Location_LogEntry" Member="LogEntries" ThisKey="ID" OtherKey="locationID" Type="LogEntry" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId1">
+      <Argument Parameter="iD" Member="ID" />
+      <Argument Parameter="accuracy" Member="accuracy" />
+      <Argument Parameter="altitude" Member="altitude" />
+      <Argument Parameter="bearing" Member="bearing" />
+      <Argument Parameter="extras" Member="extras" />
+      <Argument Parameter="provider" Member="provider" />
+      <Argument Parameter="speed" Member="speed" />
+      <Argument Parameter="time" Member="time" />
+      <Argument Parameter="latitude" Member="latitude" />
+      <Argument Parameter="longitude" Member="longitude" />
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId2">
+      <Argument Parameter="iD" Member="ID" />
+      <Argument Parameter="accuracy" Member="accuracy" />
+      <Argument Parameter="altitude" Member="altitude" />
+      <Argument Parameter="bearing" Member="bearing" />
+      <Argument Parameter="extras" Member="extras" />
+      <Argument Parameter="provider" Member="provider" />
+      <Argument Parameter="speed" Member="speed" />
+      <Argument Parameter="time" Member="time" />
+      <Argument Parameter="latitude" Member="latitude" />
+      <Argument Parameter="longitude" Member="longitude" />
+    </UpdateFunction>
+  </Table>
+  <Table Name="dbo.LogEntry" Member="LogEntries">
+    <Type Name="LogEntry">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="loggerIdentifierID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="timestampID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="locationID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="userID" Storage="_logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_CdmaCellLocation" Member="CdmaCellLocations" ThisKey="ID" OtherKey="logEntryID" Type="CdmaCellLocation" />
+      <Association Name="LogEntry_GsmCellLocation" Member="GsmCellLocations" ThisKey="ID" OtherKey="logEntryID" Type="GsmCellLocation" />
+      <Association Name="LogEntry_DataConnectionState" Member="DataConnectionStates" ThisKey="ID" OtherKey="logEntryID" Type="DataConnectionState" />
+      <Association Name="LogEntry_PositionLocationChanged" Member="PositionLocationChangeds" ThisKey="ID" OtherKey="logEntryID" Type="PositionLocationChanged" />
+      <Association Name="LogEntry_PositionProviderEnabledDisabled" Member="PositionProviderEnabledDisableds" ThisKey="ID" OtherKey="logEntryID" Type="PositionProviderEnabledDisabled" />
+      <Association Name="LogEntry_PositionStatusChanged" Member="PositionStatusChangeds" ThisKey="ID" OtherKey="logEntryID" Type="PositionStatusChanged" />
+      <Association Name="LogEntry_ServiceState" Member="ServiceStates" ThisKey="ID" OtherKey="logEntryID" Type="ServiceState" />
+      <Association Name="LogEntry_SignalStrength" Member="SignalStrengths" ThisKey="ID" OtherKey="logEntryID" Type="SignalStrength" />
+      <Association Name="LogEntry_WifiScanResult" Member="WifiScanResults" ThisKey="ID" OtherKey="logEntryID" Type="WifiScanResult" />
+      <Association Name="LogEntry_Unrecognised" Member="Unrecogniseds" ThisKey="ID" OtherKey="logEntryID" Type="Unrecognised" />
+      <Association Name="Location_LogEntry" Member="Location" ThisKey="locationID" OtherKey="ID" Type="Location" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="LoggerIdentifier_LogEntry" Member="LoggerIdentifier" ThisKey="loggerIdentifierID" OtherKey="ID" Type="LoggerIdentifier" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Timestamp_LogEntry" Member="Timestamp" ThisKey="timestampID" OtherKey="ID" Type="Timestamp" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="User_LogEntry" Member="User" ThisKey="userID" OtherKey="ID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NeighbouringCells" Member="NeighbouringCells">
+    <Type Name="NeighbouringCells">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="NeighbouringCells_CdmaCellLocation" Member="CdmaCellLocations" ThisKey="ID" OtherKey="neighbouringCellsID" Type="CdmaCellLocation" />
+      <Association Name="NeighbouringCells_GsmCellLocation" Member="GsmCellLocations" ThisKey="ID" OtherKey="neighbouringCellsID" Type="GsmCellLocation" />
+      <Association Name="NeighbouringCells_NeighbouringCell" Member="NeighbouringCells1" ThisKey="ID" OtherKey="neighbouringCellsID" Type="NeighbouringCell" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LoggerIdentifier" Member="LoggerIdentifiers">
+    <Type Name="LoggerIdentifier">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="uniqueID" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="version" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="LoggerIdentifier_LogEntry" Member="LogEntries" ThisKey="ID" OtherKey="loggerIdentifierID" Type="LogEntry" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NeighbouringCell" Member="NeighbouringCells1">
+    <Type Name="NeighbouringCell">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="lac" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="psc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="rssi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="networkType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="neighbouringCellsID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="NeighbouringCells_NeighbouringCell" Member="NeighbouringCells" ThisKey="neighbouringCellsID" OtherKey="ID" Type="NeighbouringCells" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PositionLocationChanged" Member="PositionLocationChangeds">
+    <Type Name="PositionLocationChanged">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="positionBinary" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="provider" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="accuracy" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="altitude" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="bearing" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="speed" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="time" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="extras" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="latitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="longitude" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_PositionLocationChanged" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+    <InsertFunction FunctionId="FunctionId3">
+      <Argument Parameter="iD" Member="ID" />
+      <Argument Parameter="provider" Member="provider" />
+      <Argument Parameter="accuracy" Member="accuracy" />
+      <Argument Parameter="altitude" Member="altitude" />
+      <Argument Parameter="bearing" Member="bearing" />
+      <Argument Parameter="speed" Member="speed" />
+      <Argument Parameter="time" Member="time" />
+      <Argument Parameter="extras" Member="extras" />
+      <Argument Parameter="logEntryID" Member="logEntryID" />
+      <Argument Parameter="latitude" Member="latitude" />
+      <Argument Parameter="longitude" Member="longitude" />
+    </InsertFunction>
+    <UpdateFunction FunctionId="FunctionId4">
+      <Argument Parameter="iD" Member="ID" />
+      <Argument Parameter="provider" Member="provider" />
+      <Argument Parameter="accuracy" Member="accuracy" />
+      <Argument Parameter="altitude" Member="altitude" />
+      <Argument Parameter="bearing" Member="bearing" />
+      <Argument Parameter="speed" Member="speed" />
+      <Argument Parameter="time" Member="time" />
+      <Argument Parameter="extras" Member="extras" />
+      <Argument Parameter="logEntryID" Member="logEntryID" />
+      <Argument Parameter="latitude" Member="latitude" />
+      <Argument Parameter="longitude" Member="longitude" />
+    </UpdateFunction>
+  </Table>
+  <Table Name="dbo.PositionProviderEnabledDisabled" Member="PositionProviderEnabledDisableds">
+    <Type Name="PositionProviderEnabledDisabled">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="isEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="provider" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_PositionProviderEnabledDisabled" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Timestamp" Member="Timestamps">
+    <Type Name="Timestamp">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="systemTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="timezone" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Timestamp_LogEntry" Member="LogEntries" ThisKey="ID" OtherKey="timestampID" Type="LogEntry" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PositionStatusChanged" Member="PositionStatusChangeds">
+    <Type Name="PositionStatusChanged">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="provider" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="status" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="extras" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_PositionStatusChanged" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ServiceState" Member="ServiceStates">
+    <Type Name="ServiceState">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="isManualSelection" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="operatorAlphaLong" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="operatorAlphaShort" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="operatorNumeric" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="roaming" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="state" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_ServiceState" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SignalStrength" Member="SignalStrengths">
+    <Type Name="SignalStrength">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cdmaDbm" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cdmaEcio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="evdoDbm" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="evdoEcio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="evdoSnr" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="gsmBitErrorRate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="gsmSignalStrength" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isGsm" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_SignalStrength" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WifiScanResult" Member="WifiScanResults">
+    <Type Name="WifiScanResult">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="bssid" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ssid" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="capabilities" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="frequency" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[level]" Member="level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_WifiScanResult" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Unrecognised" Member="Unrecogniseds">
+    <Type Name="Unrecognised">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="blobUri" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="logEntryID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="LogEntry_Unrecognised" Member="LogEntry" ThisKey="logEntryID" OtherKey="ID" Type="LogEntry" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.User" Member="Users">
+    <Type Name="User">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="claimedIdentifier" Type="System.String" DbType="NVARCHAR(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="friendlyIdentifier" Storage="_friendlyIdentifer" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" />
+      <Column Name="secret" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="false" />
+      <Association Name="User_LogEntry" Member="LogEntries" ThisKey="ID" OtherKey="userID" Type="LogEntry" />
+    </Type>
+  </Table>
+  <Function Id="FunctionId1" Name="dbo.InsertLocation" Method="InsertLocation">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int64" DbType="BigInt" Direction="InOut" />
+    <Parameter Name="accuracy" Type="System.Double" DbType="Float" />
+    <Parameter Name="altitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="bearing" Type="System.Double" DbType="Float" />
+    <Parameter Name="extras" Type="System.String" DbType="Text" />
+    <Parameter Name="provider" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="speed" Type="System.Double" DbType="Float" />
+    <Parameter Name="time" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="latitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="longitude" Type="System.Double" DbType="Float" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId3" Name="dbo.InsertPositionLocationChanged" Method="InsertPositionLocationChanged">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int64" DbType="BigInt" Direction="InOut" />
+    <Parameter Name="provider" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="accuracy" Type="System.Double" DbType="Float" />
+    <Parameter Name="altitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="bearing" Type="System.Double" DbType="Float" />
+    <Parameter Name="speed" Type="System.Double" DbType="Float" />
+    <Parameter Name="time" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="extras" Type="System.String" DbType="Text" />
+    <Parameter Name="logEntryID" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="latitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="longitude" Type="System.Double" DbType="Float" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId4" Name="dbo.UpdatePositionLocationChanged" Method="UpdatePositionLocationChanged">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="provider" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="accuracy" Type="System.Double" DbType="Float" />
+    <Parameter Name="altitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="bearing" Type="System.Double" DbType="Float" />
+    <Parameter Name="speed" Type="System.Double" DbType="Float" />
+    <Parameter Name="time" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="extras" Type="System.String" DbType="Text" />
+    <Parameter Name="logEntryID" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="latitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="longitude" Type="System.Double" DbType="Float" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Id="FunctionId2" Name="dbo.UpdateLocation" Method="UpdateLocation">
+    <Parameter Name="ID" Parameter="iD" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="accuracy" Type="System.Double" DbType="Float" />
+    <Parameter Name="altitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="bearing" Type="System.Double" DbType="Float" />
+    <Parameter Name="extras" Type="System.String" DbType="Text" />
+    <Parameter Name="provider" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="speed" Type="System.Double" DbType="Float" />
+    <Parameter Name="time" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="latitude" Type="System.Double" DbType="Float" />
+    <Parameter Name="longitude" Type="System.Double" DbType="Float" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

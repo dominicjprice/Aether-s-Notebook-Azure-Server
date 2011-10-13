@@ -1,0 +1,93 @@
+﻿@model Aethers.Notebook.Model.OpenIdLogOn
+
+@{
+	ViewBag.Title = "Aether's Notebook | Log On";
+}
+
+@section header {
+	<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/jquery.openid.js")" type="text/javascript" ></script>
+	<link href="@Url.Content("~/Content/openid.css")" rel="stylesheet" type="text/css" />
+}
+
+<h2>Register using OpenID</h2>
+
+<script type="text/javascript">
+	$(function () {
+		$("form.OpenIdLogOnForm").openid();
+	});
+</script>
+
+@using (Html.BeginForm("AuthenticateOpenID", "Web", FormMethod.Post, new { @class = "OpenIdLogOnForm" }))
+{
+	@Html.ValidationSummary(true)
+	<fieldset>
+		<legend>Log On</legend>
+		<span class="caption">Please select your Open ID provider from the list below:</span>
+		@Html.ValidationMessageFor(m => m.OpenID)
+		<div class="openid">
+			<ul class="providers">
+				<li class="direct" title="Google"> 
+					<img src="@Url.Content("~/Content/Images/googleW.png")" alt="Google Icon" />
+					<span>https://www.google.com/accounts/o8/id</span>
+				</li> 
+				<li class="direct" title="Yahoo"> 
+					<img src="@Url.Content("~/Content/Images/yahooW.png")" alt="Yahoo Icon" />
+					<span>http://yahoo.com/</span>
+				</li>
+				<li class="openid" title="OpenID">
+					<img src="@Url.Content("~/Content/Images/openidW.png")" alt="Open ID Icon" /> 
+					<span><strong>http://{your-openid-url}</strong></span>
+				</li>
+				<li class="username" title="AOL"> 
+					<img src="@Url.Content("~/Content/Images/aolW.png")" alt="AOL Icon" />
+					<span>http://openid.aol.com/<strong>username</strong></span>
+				</li> 
+				<li class="username" title="MyOpenID"> 
+					<img src="@Url.Content("~/Content/Images/myopenid.png")" alt="MyOpenID Icon" />
+					<span>http://<strong>username</strong>.myopenid.com/</span>
+				</li> 
+				<li class="username" title="Flickr"> 
+					<img src="@Url.Content("~/Content/Images/flickr.png")" alt="Flickr Icon" />
+					<span>http://flickr.com/<strong>username</strong>/</span>
+				</li> 
+				<li class="username" title="Technorati"> 
+					<img src="@Url.Content("~/Content/Images/technorati.png")" alt="Technorati Icon" />
+					<span>http://technorati.com/people/technorati/<strong>username</strong>/</span>
+					</li> 
+				<li class="username" title="Wordpress"> 
+					<img src="@Url.Content("~/Content/Images/wordpress.png")" alt="Wordpress Icon" />
+					<span>http://<strong>username</strong>.wordpress.com</span>
+				</li> 
+				<li class="username" title="Blogger"> 
+					<img src="@Url.Content("~/Content/Images/blogger.png")" alt="Blogger Icon" />
+					<span>http://<strong>username</strong>.blogspot.com/</span>
+				</li> 
+				<li class="username" title="LiveJournal"> 
+					<img src="@Url.Content("~/Content/Images/livejournal.png")" alt="LiveJournal Icon" />
+					<span>http://<strong>username</strong>.livejournal.com</span>
+				</li> 
+				<li class="username" title="ClaimID"> 
+					<img src="@Url.Content("~/Content/Images/claimid.png")" alt="ClaimID Icon" />
+					<span>http://claimid.com/<strong>username</strong></span>
+				</li> 
+				<li class="username" title="Vidoop"> 
+					<img src="@Url.Content("~/Content/Images/vidoop.png")" alt="Vidoop Icon" />
+					<span>http://<strong>username</strong>.myvidoop.com/</span>
+				</li> 
+				<li class="username" title="Verisign"> 
+					<img src="@Url.Content("~/Content/Images/verisign.png")" alt="Verisign Icon" />
+					<span>http://<strong>username</strong>.pip.verisignlabs.com/</span>
+				</li> 
+			</ul>
+			<div>
+				@Html.LabelFor(m => m.OpenID,"Please enter your OpenID identifier:")
+				<span></span>@Html.TextBoxFor(m => m.OpenID)<span></span>
+			</div>
+		</div>
+		<p>
+			<input type="submit" value="Log On" />
+		</p>
+	</fieldset>
+}
