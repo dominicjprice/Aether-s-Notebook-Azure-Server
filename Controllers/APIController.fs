@@ -10,7 +10,7 @@ open DotNetOpenAuth.OpenId.RelyingParty
 module Storage = Aethers.Notebook.Storage
 
 [<System.Web.Mvc.HandleError>]
-type WebController() =
+type APIController() =
     inherit System.Web.Mvc.Controller()
     
     static let SESSION_VARIABLE_MODEL = "model"

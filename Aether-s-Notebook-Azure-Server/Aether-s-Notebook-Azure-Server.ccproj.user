@@ -19,6 +19,6 @@
     <TimestampLabel>True</TimestampLabel>
     <DeploymentPromptBeforeDeleting>False</DeploymentPromptBeforeDeleting>
     <PackageProfile>Cloud</PackageProfile>
-    <PackageSolutionConfiguration>Debug</PackageSolutionConfiguration>
+    <PackageSolutionConfiguration>Release</PackageSolutionConfiguration>
   </PropertyGroup>
 </Project>
