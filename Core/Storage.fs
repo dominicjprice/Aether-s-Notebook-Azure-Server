@@ -158,7 +158,8 @@ let parseLine line openID =
     let o = JObject.Parse(line)
     let context = DAO.get()
     let logEntry = new LogEntry()
-    //logEntry.originIdentifier <- openID
+    let user = context.Users.Single(new System.Func<_,_>(fun (u : User) -> u.claimedIdentifier.Equals(openID)))
+    logEntry.User <- user
     let identifier = getIdentifier ((string)o.["identifier"].["uniqueID"]) ((int)o.["identifier"].["version"]) context
     logEntry.LoggerIdentifier <- identifier
     let timestamp = new Timestamp()

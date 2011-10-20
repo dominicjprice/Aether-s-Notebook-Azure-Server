@@ -9,23 +9,23 @@ open DotNetOpenAuth.OpenId.RelyingParty
 
 module Storage = Aethers.Notebook.Storage
 
+type LoginResult = { openID : string; secret : string; friendlyID : string }
+
 [<System.Web.Mvc.HandleError>]
 type APIController() =
     inherit System.Web.Mvc.Controller()
     
-    static let SESSION_VARIABLE_MODEL = "model"
     static let relyingParty = new OpenIdRelyingParty()
+    static let encoding = new System.Text.UTF8Encoding()
 
     do()
 
     [<System.Web.Mvc.HttpGet>]
     //[<System.Web.Mvc.RequireHttpsAttribute>]
     member this.AuthenticateOpenID() =
-       let model = this.Session.[SESSION_VARIABLE_MODEL] :?> OpenIdLogOn
-       this.Session.Remove(SESSION_VARIABLE_MODEL)
        let response = relyingParty.GetResponse()
        match response.Status with
-        | AuthenticationStatus.Authenticated  -> 
+        | AuthenticationStatus.Authenticated -> 
             let claimedID = response.ClaimedIdentifier.ToString()
             let friendlyID = response.FriendlyIdentifierForDisplay
             let user = Storage.addOrUpdateUser claimedID friendlyID
@@ -33,7 +33,11 @@ type APIController() =
             this.Response.StatusDescription <- "OK"
             this.Response.ContentType <- "application/json"
             this.Response.Charset <- "UTF-8"
-            new System.Web.Mvc.EmptyResult() :> System.Web.Mvc.ActionResult
+            let action = new System.Web.Mvc.ContentResult()
+            action.ContentEncoding <- encoding
+            action.ContentType <- "application/json"
+            action.Content <- Newtonsoft.Json.JsonConvert.SerializeObject({ openID = user.claimedIdentifier; secret = user.secret; friendlyID = user.friendlyIdentifier; })
+            action :> System.Web.Mvc.ActionResult
         | AuthenticationStatus.Canceled ->
             this.Response.StatusCode <- 400
             this.Response.StatusDescription <- "Authentication cancelled"
@@ -60,9 +64,7 @@ type APIController() =
         match Identifier.TryParse(model.OpenID, &id) with
             | true -> 
                 try 
-                    let a = relyingParty.CreateRequest(id).RedirectingResponse.AsActionResult()
-                    this.Session.[SESSION_VARIABLE_MODEL] <- model
-                    a
+                    relyingParty.CreateRequest(id).RedirectingResponse.AsActionResult()
                 with
                     | _ as e ->
                         this.Response.StatusCode <- 400

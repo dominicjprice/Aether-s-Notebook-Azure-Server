@@ -35,6 +35,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <ItemGroup>
     <None Include="DotNetOpenAuth.dll" />
+    <None Include="Newtonsoft.Json.dll" />
     <Compile Include="Model.fs" />
     <Compile Include="ReceiverController.fs" />
     <Compile Include="WebController.fs" />
@@ -55,6 +56,9 @@
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core">
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
