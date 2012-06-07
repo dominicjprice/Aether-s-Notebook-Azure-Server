@@ -1,3 +1,7 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var controller = (String)ViewContext.RouteData.Values["Controller"];
+    Layout =
+        Request.IsAuthenticated
+            ? "~/Views/Shared/_" + controller + "Authenticated.cshtml"
+            : "~/Views/Shared/_" + controller + "Unauthenticated.cshtml";
 }

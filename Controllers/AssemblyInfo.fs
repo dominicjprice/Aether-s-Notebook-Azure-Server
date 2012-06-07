@@ -9,12 +9,12 @@ open System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("Controllers")>]
-[<assembly: AssemblyDescription("Aether's Notebook Web Controllers")>]
+[<assembly: AssemblyTitle("Aether's Notebook Web Controllers")>]
+[<assembly: AssemblyDescription("ASP.NET MVC controllers for Aether's Notebook")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("Horizon Digital Economy Research, The University of Nottingham")>]
 [<assembly: AssemblyProduct("Aether's Notebook")>]
-[<assembly: AssemblyCopyright("Copyright © Horizon Digital Economy Research, The University of Nottingham 2011")>]
+[<assembly: AssemblyCopyright("Copyright © Horizon Digital Economy Research, The University of Nottingham 2012")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
@@ -24,7 +24,7 @@ open System.Runtime.InteropServices;
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("0c89b837-3ca1-4947-b168-f7de1db6c88d")>]
+[<assembly: Guid("2649b54d-727a-4725-aa85-562af71ce5d2")>]
 
 // Version information for an assembly consists of the following four values:
 //

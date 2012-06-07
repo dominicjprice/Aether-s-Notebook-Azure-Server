@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Aether's Notebook | Profile";
+    var user = (Aethers.Notebook.Model.User)ViewData["User"];
+    var usersCatalogs = (IEnumerable<Aethers.Notebook.Model.UserCatalog>)ViewData["UsersCatalogs"];
+}
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.editable-1.3.3.min.js")"></script>
+}
+<script type="text/javascript">
+    $(function () {
+        $("#addcatalogbutton").click(function() { $(this).fadeOut(); $("#installformspan").fadeIn(); }).button();
+        $("#catalogcancelbutton").click(function() { $("#addcatalogbutton").fadeIn(); $("#installformspan").fadeOut(); return false;}).button();
+        $("#catalogsubmitbutton").button();
+        $("#displaynamefield").editable({
+            "onSubmit": function (content) {
+                if (content.current != content.previous) {
+                    $.ajax({
+                        "url": "@Url.Action("UpdateDisplayName", "AJAX")",
+                        "data": { "name": content.current }
+                    });
+                }
+            }
+        });
+    });
+</script>
+<h2>You</h2>
+<p>Display name: <span id="displaynamefield">@user.displayName</span></p>
+<h2>Catalogs</h2>
+<p>
+    <a id="addcatalogbutton" href="#">Install to a Catalog</a>
+    <div id="installformspan" style="display:none;">
+        <br />
+        <form action="/Dataware/Install" method="post" enctype="application/x-www-form-urlencoded">
+            <fieldset>
+                <label>Please enter your Catalog URI
+                    <input id="catalogUri" name="catalogUri" type="text" />
+                </label>
+                <br />
+                <input id="catalogsubmitbutton" type="submit" value="Install" />
+                <button id="catalogcancelbutton">Cancel</button>
+            </fieldset>
+        </form>
+    </div>
+</p>
+<ul>
+    @foreach (var uc in usersCatalogs)
+    {
+    <li>@uc.Catalog.catalogUri</li>
+    }
+</ul>

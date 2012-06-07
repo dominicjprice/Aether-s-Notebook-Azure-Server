@@ -2,50 +2,45 @@
 
 namespace Aethers.Notebook.Workers
 
-open System
-open System.Collections.Generic
-open System.Diagnostics
-open System.Linq
-open System.Net
 open System.Threading
 open Microsoft.WindowsAzure
-open Microsoft.WindowsAzure.Diagnostics
 open Microsoft.WindowsAzure.ServiceRuntime
 open Microsoft.WindowsAzure.StorageClient
 
+module Conf = Aethers.Notebook.Configuration
+module DA = Aethers.Notebook.DataAccess
 module Log = Aethers.Notebook.Log
-module S = Aethers.Notebook.Storage
 
 type UploadWorker() =
     inherit RoleEntryPoint() 
-        
-    override wr.Run() =
-        let storageAccount = CloudStorageAccount.FromConfigurationSetting("DataConnectionString")
+    
+    let processMessage (msg : CloudQueueMessage) =
+        let storageAccount = CloudStorageAccount.FromConfigurationSetting("Aethers.Notebook.Storage.ConnectionString")
         let queueClient = CloudStorageAccountStorageClientExtensions.CreateCloudQueueClient(storageAccount)
-        let queueContainer = queueClient.GetQueueReference(ServiceRuntime.RoleEnvironment.GetConfigurationSettingValue("UploadedDataQueue"))
-        queueContainer.CreateIfNotExist() |> ignore
+        let queueContainer = queueClient.GetQueueReference(RoleEnvironment.GetConfigurationSettingValue("Aethers.Notebook.Storage.Queue.UploadedData"))
+        try
+            Log.information ("Processing queue message: " + msg.Id)
+            DA.store msg
+        with
+            | _ as e -> 
+                    Log.error(e.Message)
+                    Log.error(e.StackTrace)
+        queueContainer.DeleteMessage(msg)
+
+    override wr.Run() =   
+        let storageAccount = CloudStorageAccount.FromConfigurationSetting("Aethers.Notebook.Storage.ConnectionString")
+        let queueClient = CloudStorageAccountStorageClientExtensions.CreateCloudQueueClient(storageAccount)
+        let queueContainer = queueClient.GetQueueReference(RoleEnvironment.GetConfigurationSettingValue("Aethers.Notebook.Storage.Queue.UploadedData"))
         while(true) do
-            Log.information("UploadWorker role wake")
             queueContainer.GetMessages(10) 
-                    |> Seq.map (fun msg -> async 
-                                            { 
-                                                try
-                                                    Log.information ("Processing queue message: " + msg.Id)
-                                                    S.store msg
-                                                with
-                                                    | _ as e -> 
-                                                            Log.error(e.Message)
-                                                            Log.error(e.StackTrace)
-                                                queueContainer.DeleteMessage(msg)
-                                                return ()
-                                            }) 
+                    |> Seq.map (fun msg -> async { return processMessage msg }) 
                     |> Async.Parallel 
                     |> Async.RunSynchronously
                     |> ignore
-            Log.information("UploadWorker role sleep")
             Thread.Sleep(10000)
 
     override wr.OnStart() =
-        Aethers.Notebook.Config.setupConfigurationPublisher()
-        Aethers.Notebook.Config.setupDiagnostics()
+        Conf.onStart ()
+        Conf.configureStorage ()
+        Conf.configureDiagnostics ()
         base.OnStart()

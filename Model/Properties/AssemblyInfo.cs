@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Model")]
-[assembly: AssemblyDescription("Aether's Notebook Data Model")]
+[assembly: AssemblyTitle("Aether's Notebook Data Model")]
+[assembly: AssemblyDescription("The SQL/LINQ data model for Aether's Notebook")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Horizon Digital Economy Research, The University of Nottingham")]
 [assembly: AssemblyProduct("Aether's Notebook")]
-[assembly: AssemblyCopyright("Copyright © Horizon Digital Economy Research, The University of Nottingham 2011")]
+[assembly: AssemblyCopyright("Copyright © Horizon Digital Economy Research, The University of Nottingham 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ffbecfe1-ca2f-4faa-8f75-ef269d0f7155")]
+[assembly: Guid("70a85c27-7ac5-4bf7-9db1-c471603ca4d8")]
 
 // Version information for an assembly consists of the following four values:
 //

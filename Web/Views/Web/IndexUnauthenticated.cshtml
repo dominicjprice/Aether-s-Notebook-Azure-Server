@@ -1,0 +1,94 @@
+﻿@model Aethers.Notebook.Controllers.OpenIdLogOn
+@{
+    ViewBag.Title = "Aether's Notebook | Welcome";
+}
+@section header {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.selectmenu.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Providers.js")"></script>
+}
+<script type="text/javascript">
+    $(function () {
+
+        var logonform = $("#logonform");
+        var providerfield = logonform.find("#providerfield");
+        var submitbutton = logonform.find("#submitbutton");
+        var variableformdiv = logonform.find("#variableformdiv");
+        var openIdField = logonform.find("#OpenID");
+        logonform.submit(function () { return false; });
+        submitbutton.button({ "disabled": true });
+
+        jQuery.each(AethersNotebook.providers, function (index, value) {
+            var e = $(document.createElement("option"));
+            e.val(index);
+            e.text(value.name);
+            providerfield.append(e);
+        });
+
+        providerfield.selectmenu({
+            "style": "dropdown",
+            "transferClasses": true,
+            "width": 400,
+            "change": function (e, obj) {
+                var v = obj.value;
+                logonform.off("submit");
+                variableformdiv.slideUp();
+                variableformdiv.empty();
+                if (v == "none") {
+                    submitbutton.button("option", "disabled", true);
+                    logonform.submit(function () {
+                        return false;
+                    });
+                } else {
+                    var p = AethersNotebook.providers[v];
+                    submitbutton.button("option", "disabled", false);
+                    switch (p.type) {
+                        case "direct":
+                            logonform.submit(p, function (o) {
+                                openIdField.val(o.data.urlpattern);
+                                return true;
+                            });
+                            break;
+                        case "username":
+                        default:
+                            var inp = $(document.createElement("input")).attr("type", "text");
+                            var label = $(document.createElement("label"));
+                            variableformdiv.text(p.text);
+                            label.append(inp);
+                            variableformdiv.append(label)
+                            variableformdiv.slideDown();
+                            logonform.submit(p, function (o) {
+                                var url = o.data.urlpattern.replace("%s", inp.val());
+                                openIdField.val(url);
+                                return true;
+                            });
+                    }
+                }
+            }
+        });
+
+        $("#logonform").position({
+            "my": "center top",
+            "at": "center",
+            "of": $("#bodydiv")
+        });
+    });
+</script>
+<div id="bodydiv">
+    @using (Html.BeginForm("AuthenticateOpenID", "Web", FormMethod.Post, new { @id = "logonform" }))
+    {
+        <fieldset>
+            <input id="OpenID" name="OpenID" type="hidden" value="" />
+            <legend>Log On or Register with an OpenID</legend>
+            @Html.ValidationMessageFor(m => m.OpenID)
+            <div>
+                <select id="providerfield" name="provider" class="dropdown">
+                    <option value="none">Please select your OpenID provider</option>
+                </select>
+            </div>
+            <div id="variableformdiv"></div>
+            <div>
+                <input id="submitbutton" type="submit" value="Log On" />
+            </div>
+        </fieldset>
+    }
+</div>

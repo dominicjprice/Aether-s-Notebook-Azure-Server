@@ -1,0 +1,6 @@
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\PythonSandbox\bin\Release\PythonSandbox.XML
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\PythonSandbox\bin\Release\PythonSandbox.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\PythonSandbox\bin\Release\PythonSandbox.pdb
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\PythonSandbox\obj\Release\ResolveAssemblyReference.cache
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\PythonSandbox\obj\Release\PythonSandbox.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\PythonSandbox\obj\Release\PythonSandbox.pdb

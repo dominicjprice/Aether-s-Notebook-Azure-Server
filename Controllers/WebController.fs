@@ -3,65 +3,51 @@
 namespace Aethers.Notebook.Controllers
 
 open Aethers.Notebook.Model
-open DotNetOpenAuth.OpenId
-open DotNetOpenAuth.Messaging
-open DotNetOpenAuth.OpenId.RelyingParty
 
-module Storage = Aethers.Notebook.Storage
+open System.Web.Mvc
 
-[<System.Web.Mvc.HandleError>]
+module DA = Aethers.Notebook.DataAccess
+
+[<HandleError>]
 type WebController() =
-    inherit System.Web.Mvc.Controller()
-
-    static let SESSION_VARIABLE_USER = "user"
-    static let relyingParty = new OpenIdRelyingParty()
+    inherit OpenIDController()
 
     do()
     
-    member this.Index() = 
+    member this.Index() =
+        match this.Request.IsAuthenticated with
+            | false -> this.IndexUnauthenticated ()
+            | true -> this.IndexAuthenticated ()
+
+    [<Authorize>]
+    member this.IndexAuthenticated() =
+        this.View("IndexAuthenticated")
+
+    member this.IndexUnauthenticated() =
+        this.View("IndexUnauthenticated")
+
+    [<Authorize>]
+    member this.Profile() =
+        let u = DA.getUserByOpenID System.Web.HttpContext.Current.User.Identity.Name
+        if u.IsSome then
+            this.ViewData.["UsersCatalogs"] <- DA.getUsersCatalogs u.Value
+            if u.Value.displayName = null || u.Value.displayName.Length = 0 then
+                u.Value.displayName <- "Not given"
+        else
+            this.ViewData.["UsersCatalogs"] <- List.Empty |> List.toSeq
+        this.ViewData.["User"] <- u.Value
         this.View()
 
-    member this.LogOn() =
-        this.View()
+    override this.LogOn() =
+        this.RedirectToAction("Index") :> ActionResult
 
-    member this.LogOff() =
-        System.Web.Security.FormsAuthentication.SignOut()
-        this.RedirectToAction("Index", "Web")
+    override this.PostLogOnAction id friendlyID =
+        System.Web.Security.FormsAuthentication.SetAuthCookie(id, false)
+        let (user, isNew) = DA.addOrUpdateUser id friendlyID
+        this.TempData.["IsNew"] <- isNew
+        this.RedirectToAction("Index") :> ActionResult
 
-    [<System.Web.Mvc.HttpGet>]
-    //[<System.Web.Mvc.RequireHttpsAttribute>]
-    member this.AuthenticateOpenID() =
-        let response = relyingParty.GetResponse()
-        match response.Status with
-            | AuthenticationStatus.Authenticated  -> 
-              let claimedID = response.ClaimedIdentifier.ToString()
-              let friendlyID = response.FriendlyIdentifierForDisplay
-              let user = Storage.addOrUpdateUser claimedID friendlyID
-              this.Session.[SESSION_VARIABLE_USER] <- user
-              System.Web.Security.FormsAuthentication.SetAuthCookie(claimedID, false)
-              this.RedirectToAction("Index", "Web") :> System.Web.Mvc.ActionResult
-            | AuthenticationStatus.Canceled ->
-              this.ModelState.AddModelError("OpenID", "Authentication cancelled at user request.")
-              this.View("LogOn") :> System.Web.Mvc.ActionResult
-            | AuthenticationStatus.Failed -> 
-              this.ModelState.AddModelError("OpenID", "Your OpenID provider did not authenticate you, please check and try again.")
-              this.ModelState.AddModelError("OpenID", response.Exception.Message)
-              this.View("LogOn") :> System.Web.Mvc.ActionResult
-            | _ -> new System.Web.Mvc.EmptyResult() :> System.Web.Mvc.ActionResult
-
-    [<System.Web.Mvc.HttpPost>]
-    //[<System.Web.Mvc.RequireHttpsAttribute>]
-    member this.AuthenticateOpenID(model : OpenIdLogOn) =
-        let mutable id = null
-        match Identifier.TryParse(model.OpenID, &id) with
-            | true -> 
-                try 
-                    relyingParty.CreateRequest(id).RedirectingResponse.AsActionResult()
-                with
-                    | _ as e ->
-                        this.ModelState.AddModelError("OpenID", e.Message)
-                        this.View("LogOn", model) :> System.Web.Mvc.ActionResult
-            | _ -> 
-                this.ModelState.AddModelError("OpenID", 
-                        "Sorry, we were unable to determine your OpenID provider, please check and try again.");
-                this.View("LogOn", model) :> System.Web.Mvc.ActionResult
+    override this.PostLogOffAction 
+        with get () = 
+            System.Web.Security.FormsAuthentication.SignOut()
+            this.RedirectToAction("Index") :> ActionResult

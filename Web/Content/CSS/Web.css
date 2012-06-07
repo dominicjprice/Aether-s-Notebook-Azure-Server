@@ -1,0 +1,38 @@
+﻿#logonform {
+    width: 400px;
+    text-align: center;
+}
+
+#headerlogo {
+    float: left;
+}
+
+#headertext {
+    float: left;
+    color: #B4AFC9;
+}
+
+.azure {
+    color: #007FFF;
+}
+
+.headerdivider {
+        clear: both;
+}
+
+.dropdown {
+    font-size: 12pt;
+}
+
+.menulink {
+    float: right;
+}
+
+body {
+    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-size: 10px;
+}
+
+fieldset {
+    border-radius: 4px;
+}

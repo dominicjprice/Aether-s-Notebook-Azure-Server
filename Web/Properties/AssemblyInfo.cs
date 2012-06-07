@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Web")]
-[assembly: AssemblyDescription("Aether's Notebook User Interface (Web)")]
+[assembly: AssemblyTitle("Aether's Notebook User Interface (Web)")]
+[assembly: AssemblyDescription("Web interface for Aether's Notebook")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Horizon Digital Economy Research, The University of Nottingham")]
 [assembly: AssemblyProduct("Aether's Notebook")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dd86d2f4-8af3-4d6e-a5da-bd87e5caf72c")]
+[assembly: Guid("ad927332-6990-4fb4-8def-92ce377c0b42")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -1,15 +1,15 @@
 ﻿#light
 
 module Aethers.Notebook.Log
+      
+let inline log kind message = System.Diagnostics.Trace.WriteLine(message, kind)
 
-let log message kind = System.Diagnostics.Trace.WriteLine(message, kind)
+let verbose = log "Verbose"
 
-let verbose message = log message "Verbose"
+let information = log "Information"
 
-let information message = log message "Information"
+let warning = log "Warning"
 
-let warning message = log message "Warning"
+let error = log "Error"
 
-let error message = log message "Error"
-
-let critical message = log message "Fatal"
+let critical = log "Critical"

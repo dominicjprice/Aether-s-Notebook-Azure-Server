@@ -1,0 +1,17 @@
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Controllers.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Controllers.pdb
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Controllers.XML
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Core.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\DotNetOpenAuth.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\FSharp.Core.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Microsoft.WindowsAzure.StorageClient.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Model.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Newtonsoft.Json.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Core.pdb
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Core.xml
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Model.pdb
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\Microsoft.WindowsAzure.StorageClient.xml
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\bin\LocalDebug\FSharp.Core.xml
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\obj\LocalDebug\ResolveAssemblyReference.cache
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\obj\LocalDebug\Controllers.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Controllers\obj\LocalDebug\Controllers.pdb

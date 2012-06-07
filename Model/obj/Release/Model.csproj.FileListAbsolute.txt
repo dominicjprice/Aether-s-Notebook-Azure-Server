@@ -1,0 +1,5 @@
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Model\bin\Release\Model.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Model\bin\Release\Model.pdb
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Model\obj\Release\ResolveAssemblyReference.cache
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Model\obj\Release\Model.dll
+D:\pszdp1\Documents\Projects\Horizon\VisualStudio\Aether-s-Notebook-Azure-Server\Model\obj\Release\Model.pdb

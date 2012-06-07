@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Aether's Notebook | Welcome";
+    string IsNew = (System.Convert.ToString(
+        TempData["IsNew"] != null && ((bool)TempData["IsNew"]) == true)).ToLower();
+        TempData.Remove("IsNew");
+}
+
+<script type="text/javascript">
+    var isNew = @IsNew;
+    $(function () {
+        if(isNew) {
+            var dialog = $("<div><p>Welcome, it looks like this is your first time here." 
+                + " Please enter a name you would like to be called below."
+                + " You can change this at any time on your profile page.</p></div>");
+            var input = $(document.createElement("input")).attr("type", "text");
+            dialog.append(input);
+            dialog.dialog({
+                "modal": true,
+                "title": "Welcome!",
+                "buttons" : [
+                    {
+                        "text": "OK",
+                        "click": function() {
+                            var name = input.val();
+                            $(this).dialog("destroy");
+                            $.ajax({
+                                "url": "@Url.Action("UpdateDisplayName", "AJAX")",
+                                "data": { "name": name }
+                            });
+                        }
+                    }
+                ]
+            });
+        }
+    });
+</script>

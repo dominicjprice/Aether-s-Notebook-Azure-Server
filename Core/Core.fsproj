@@ -30,18 +30,38 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\Core.XML</DocumentationFile>
+    <OtherFlags>--keyfile:..\Model\SigningKey.snk</OtherFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LocalDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <DefineConstants>TRACE;DEBUG;DEVFABRIC</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Debug\Core.XML</DocumentationFile>
+    <OutputPath>bin\LocalDebug\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <ItemGroup>
-    <None Include="Newtonsoft.Json.dll" />
+    <Compile Include="Log.fsi" />
     <Compile Include="Log.fs" />
-    <Compile Include="Config.fs" />
+    <Compile Include="Configuration.fs" />
+    <Compile Include="TrustedInterpreter.fsi" />
+    <Compile Include="TrustedInterpreter.fs" />
+    <Compile Include="DataAccess.fsi" />
     <Compile Include="DataAccess.fs" />
-    <Compile Include="Storage.fs" />
+    <Compile Include="Dataware.fs" />
     <Compile Include="AssemblyInfo.fs" />
+    <EmbeddedResource Include="pythonlib.zip" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PythonSandbox\PythonSandbox.fsproj">
+      <Name>PythonSandbox</Name>
+      <Project>{c833074b-6170-4cad-a9b9-f608de1cc916}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="FSharp.PowerPack">
       <HintPath>C:\Program Files (x86)\FSharpPowerPack-2.0.0.0\bin\FSharp.PowerPack.dll</HintPath>
       <Private>True</Private>
@@ -50,23 +70,33 @@
       <HintPath>C:\Program Files (x86)\FSharpPowerPack-2.0.0.0\bin\FSharp.PowerPack.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\Resources\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython">
+      <HintPath>C:\Program Files (x86)\IronPython 2.7\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython.Modules">
+      <HintPath>C:\Program Files (x86)\IronPython 2.7\IronPython.Modules.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>C:\Program Files (x86)\IronPython 2.7\Microsoft.Scripting.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Diagnostics">
-      <HintPath>C:\Program Files\Windows Azure SDK\v1.5\ref\Microsoft.WindowsAzure.Diagnostics.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>C:\Program Files\Windows Azure SDK\v1.6\ref\Microsoft.WindowsAzure.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime">
-      <HintPath>C:\Program Files\Windows Azure SDK\v1.5\ref\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
+      <HintPath>C:\Program Files\Windows Azure SDK\v1.6\ref\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient">
-      <HintPath>C:\Program Files\Windows Azure SDK\v1.5\ref\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>C:\Program Files\Windows Azure SDK\v1.6\ref\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core">
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Resources\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,6 +108,7 @@
       <Project>{7283482c-fdf2-4175-85f2-388cfa5ddd28}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,29 +5,33 @@ namespace Aethers.Notebook.Controllers
 open Microsoft.WindowsAzure
 open Microsoft.WindowsAzure.StorageClient
 
-module Storage = Aethers.Notebook.Storage
+open System.Web.Mvc
 
-[<System.Web.Mvc.HandleError>]
+module Conf = Aethers.Notebook.Configuration
+module DA = Aethers.Notebook.DataAccess
+
+[<HandleError>]
 type ReceiverController() =
-    inherit System.Web.Mvc.Controller()
-    
+    inherit Controller()
+
+    static let storageAccount = CloudStorageAccount.FromConfigurationSetting("Aethers.Notebook.Storage.ConnectionString")
+    static let blobClient = CloudStorageAccountStorageClientExtensions.CreateCloudBlobClient(storageAccount)
+    static let queueClient = CloudStorageAccountStorageClientExtensions.CreateCloudQueueClient(storageAccount)
+    static let blobContainer = blobClient.GetContainerReference(Conf.value "Aethers.Notebook.Storage.Container.UploadedData")
+    static let queueContainer = queueClient.GetQueueReference(Conf.value "Aethers.Notebook.Storage.Queue.UploadedData")
+  
     do()
     
-    [<System.Web.Mvc.HttpPost>]
-    [<System.Web.Mvc.ValidateInput(false)>]
-    //[<System.Web.Mvc.RequireHttpsAttribute>]
+    [<HttpPost>]
+    [<ValidateInput(false)>]
+#if HTTPS
+    [<RequireHttpsAttribute>]
+#endif
     member this.Index() = 
         let openID = this.Request.Headers.["X-AethersNotebook-OpenID"]
         let secret = this.Request.Headers.["X-AethersNotebook-Secret"]
-        if Storage.verifyUser openID secret
-        then 
-            let storageAccount = CloudStorageAccount.FromConfigurationSetting("DataConnectionString")
-            let blobClient = CloudStorageAccountStorageClientExtensions.CreateCloudBlobClient(storageAccount)
-            let queueClient = CloudStorageAccountStorageClientExtensions.CreateCloudQueueClient(storageAccount)
-            let blobContainer = blobClient.GetContainerReference(ServiceRuntime.RoleEnvironment.GetConfigurationSettingValue("UploadedDataContainer"))
-            let queueContainer = queueClient.GetQueueReference(ServiceRuntime.RoleEnvironment.GetConfigurationSettingValue("UploadedDataQueue"))
-            blobContainer.CreateIfNotExist() |> ignore
-            queueContainer.CreateIfNotExist() |> ignore
+        if DA.verifyUser openID secret
+        then
             let id = System.Guid.NewGuid().ToString()
             let blob = blobContainer.GetBlockBlobReference(id)
             blob.Properties.ContentType <- "application/x-gzip"
@@ -35,7 +39,7 @@ type ReceiverController() =
             blob.Metadata.["openID"] <- openID
             blob.SetMetadata()
             queueContainer.AddMessage(new CloudQueueMessage(id))
-            new System.Web.Mvc.EmptyResult()
+            new EmptyResult()
         else
             this.Response.StatusCode <- 401
-            new System.Web.Mvc.EmptyResult()
+            new EmptyResult()

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Aether_s_Notebook_Azure_Server" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
+  <WebRole name="Web">
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+      <LocalStorage name="Sandbox" sizeInMB="100" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="Aethers.Notebook.DataAccess.ConnectionString" />
+      <Setting name="Aethers.Notebook.Dataware.Description" />
+      <Setting name="Aethers.Notebook.Dataware.LogoUri" />
+      <Setting name="Aethers.Notebook.Dataware.Namespace" />
+      <Setting name="Aethers.Notebook.Dataware.ResourceName" />
+      <Setting name="Aethers.Notebook.Dataware.ResourceUri" />
+      <Setting name="Aethers.Notebook.Dataware.WebUri" />
+      <Setting name="Aethers.Notebook.Diagnostics.BufferQuota" />
+      <Setting name="Aethers.Notebook.Diagnostics.LogLevel" />
+      <Setting name="Aethers.Notebook.Diagnostics.TransferPeriod" />
+      <Setting name="Aethers.Notebook.Storage.ConnectionString" />
+      <Setting name="Aethers.Notebook.Storage.Container.UnknownData" />
+      <Setting name="Aethers.Notebook.Storage.Container.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Containers" />
+      <Setting name="Aethers.Notebook.Storage.Queue.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Queues" />
+      <Setting name="Aethers.Notebook.Storage.Tables" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="http" protocol="http" port="80" localPort="80" />
+      <InputEndpoint name="https" protocol="https" port="443" certificate="SSLCertificate" localPort="443" />
+    </Endpoints>
+    <Certificates>
+      <Certificate name="SSLCertificate" storeLocation="LocalMachine" storeName="My" />
+    </Certificates>
+  </WebRole>
+  <WorkerRole name="UploadWorker">
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="Aethers.Notebook.DataAccess.ConnectionString" />
+      <Setting name="Aethers.Notebook.Diagnostics.BufferQuota" />
+      <Setting name="Aethers.Notebook.Diagnostics.LogLevel" />
+      <Setting name="Aethers.Notebook.Diagnostics.TransferPeriod" />
+      <Setting name="Aethers.Notebook.Storage.ConnectionString" />
+      <Setting name="Aethers.Notebook.Storage.Container.UnknownData" />
+      <Setting name="Aethers.Notebook.Storage.Container.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Containers" />
+      <Setting name="Aethers.Notebook.Storage.Queue.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Queues" />
+      <Setting name="Aethers.Notebook.Storage.Tables" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints />
+    <Certificates />
+  </WorkerRole>
+</ServiceDefinition>

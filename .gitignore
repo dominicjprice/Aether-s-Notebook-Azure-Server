@@ -1,5 +1,2 @@
-ServiceConfiguration*
-cert
-bin
-obj
-cert.pfx
+Aether-s-Notebook-Azure-Server/ServiceConfiguration.Cloud.cscfg
+Aether-s-Notebook-Azure-Server/ServiceConfiguration.Local.cscfg

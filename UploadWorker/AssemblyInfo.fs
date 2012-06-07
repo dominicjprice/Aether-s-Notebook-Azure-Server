@@ -9,12 +9,12 @@ open System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("UploadWorker")>]
-[<assembly: AssemblyDescription("Aether's Notebook Upload Worker")>]
+[<assembly: AssemblyTitle("Aether's Notebook Upload Worker")>]
+[<assembly: AssemblyDescription("Worker role to process uploaded data asynchronously")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("Horizon Digital Economy Research, The University of Nottingham")>]
 [<assembly: AssemblyProduct("Aether's Notebook")>]
-[<assembly: AssemblyCopyright("Copyright © Horizon Digital Economy Research, The University of Nottingham 2011")>]
+[<assembly: AssemblyCopyright("Copyright © Horizon Digital Economy Research, The University of Nottingham 2012")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 
@@ -24,7 +24,7 @@ open System.Runtime.InteropServices;
 [<assembly: ComVisible(false)>]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[<assembly: Guid("d4731a02-b889-44c7-84f1-6b9c3a4dc764")>]
+[<assembly: Guid("59f97483-633f-4713-a1b1-fddd54a6af66")>]
 
 // Version information for an assembly consists of the following four values:
 //

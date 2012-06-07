@@ -13,27 +13,42 @@
     <Sites>
       <Site name="Web">
         <Bindings>
-          <Binding name="Endpoint1" endpointName="http" />
-          <Binding name="Endpoint1" endpointName="https" />
+          <Binding name="http" endpointName="http" />
+          <Binding name="https" endpointName="https" />
         </Bindings>
       </Site>
     </Sites>
     <Endpoints>
       <InputEndpoint name="http" protocol="http" port="80" />
-      <InputEndpoint name="https" protocol="https" port="443" certificate="Self-Signed Certificate" />
+      <InputEndpoint name="https" protocol="https" port="443" certificate="SSLCertificate" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
     <ConfigurationSettings>
-      <Setting name="DataConnectionString" />
-      <Setting name="UploadedDataContainer" />
-      <Setting name="UploadedDataQueue" />
-      <Setting name="DataContextConnectionString" />
+      <Setting name="Aethers.Notebook.DataAccess.ConnectionString" />
+      <Setting name="Aethers.Notebook.Dataware.Description" />
+      <Setting name="Aethers.Notebook.Dataware.LogoUri" />
+      <Setting name="Aethers.Notebook.Dataware.Namespace" />
+      <Setting name="Aethers.Notebook.Dataware.ResourceName" />
+      <Setting name="Aethers.Notebook.Dataware.ResourceUri" />
+      <Setting name="Aethers.Notebook.Dataware.WebUri" />
+      <Setting name="Aethers.Notebook.Diagnostics.BufferQuota" />
+      <Setting name="Aethers.Notebook.Diagnostics.LogLevel" />
+      <Setting name="Aethers.Notebook.Diagnostics.TransferPeriod" />
+      <Setting name="Aethers.Notebook.Storage.ConnectionString" />
+      <Setting name="Aethers.Notebook.Storage.Container.UnknownData" />
+      <Setting name="Aethers.Notebook.Storage.Container.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Containers" />
+      <Setting name="Aethers.Notebook.Storage.Queue.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Queues" />
+      <Setting name="Aethers.Notebook.Storage.Tables" />
     </ConfigurationSettings>
-    <LocalResources></LocalResources>
+    <LocalResources>
+      <LocalStorage name="Sandbox" cleanOnRoleRecycle="true" sizeInMB="100" />
+    </LocalResources>
     <Certificates>
-      <Certificate name="Self-Signed Certificate" storeLocation="CurrentUser" storeName="My" />
+      <Certificate name="SSLCertificate" storeLocation="LocalMachine" storeName="My" />
     </Certificates>
   </WebRole>
   <WorkerRole name="UploadWorker" vmsize="Small">
@@ -41,11 +56,17 @@
       <Import moduleName="Diagnostics" />
     </Imports>
     <ConfigurationSettings>
-      <Setting name="DataConnectionString" />
-      <Setting name="UploadedDataContainer" />
-      <Setting name="UploadedDataQueue" />
-      <Setting name="DataContextConnectionString" />
-      <Setting name="UnrecognisedDataContainer" />
+      <Setting name="Aethers.Notebook.DataAccess.ConnectionString" />
+      <Setting name="Aethers.Notebook.Diagnostics.BufferQuota" />
+      <Setting name="Aethers.Notebook.Diagnostics.LogLevel" />
+      <Setting name="Aethers.Notebook.Diagnostics.TransferPeriod" />
+      <Setting name="Aethers.Notebook.Storage.ConnectionString" />
+      <Setting name="Aethers.Notebook.Storage.Container.UnknownData" />
+      <Setting name="Aethers.Notebook.Storage.Container.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Containers" />
+      <Setting name="Aethers.Notebook.Storage.Queue.UploadedData" />
+      <Setting name="Aethers.Notebook.Storage.Queues" />
+      <Setting name="Aethers.Notebook.Storage.Tables" />
     </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

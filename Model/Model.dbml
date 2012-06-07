@@ -248,7 +248,43 @@
       <Column Name="claimedIdentifier" Type="System.String" DbType="NVARCHAR(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="friendlyIdentifier" Storage="_friendlyIdentifer" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" />
       <Column Name="secret" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="false" />
+      <Column Name="displayName" Type="System.String" DbType="VARCHAR(MAX)" CanBeNull="true" />
       <Association Name="User_LogEntry" Member="LogEntries" ThisKey="ID" OtherKey="userID" Type="LogEntry" />
+      <Association Name="User_UserCatalog" Member="UserCatalogs" ThisKey="ID" OtherKey="UserID" Type="UserCatalog" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Catalog" Member="Catalogs">
+    <Type Name="Catalog">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="catalogUri" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="resourceID" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Catalog_UserCatalog" Member="UserCatalogs" ThisKey="ID" OtherKey="CatalogID" Type="UserCatalog" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserCatalog" Member="UserCatalogs">
+    <Type Name="UserCatalog">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="CatalogID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="state" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="status" Type="StatusCode" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="auth_code" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="access_token" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="UserCatalog_ResourceQuery" Member="ResourceQueries" ThisKey="ID" OtherKey="userCatalogID" Type="ResourceQuery" />
+      <Association Name="Catalog_UserCatalog" Member="Catalog" ThisKey="CatalogID" OtherKey="ID" Type="Catalog" IsForeignKey="true" />
+      <Association Name="User_UserCatalog" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ResourceQuery" Member="ResourceQueries">
+    <Type Name="ResourceQuery">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="client_id" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="query" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="expiry_time" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="userCatalogID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="processed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="access_token" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="UserCatalog_ResourceQuery" Member="UserCatalog" ThisKey="userCatalogID" OtherKey="ID" Type="UserCatalog" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Id="FunctionId1" Name="dbo.InsertLocation" Method="InsertLocation">

@@ -20,5 +20,6 @@
     <DeploymentPromptBeforeDeleting>False</DeploymentPromptBeforeDeleting>
     <PackageProfile>Cloud</PackageProfile>
     <PackageSolutionConfiguration>Release</PackageSolutionConfiguration>
+    <ActivePublishProfile>Aether's NotebookProduction</ActivePublishProfile>
   </PropertyGroup>
 </Project>

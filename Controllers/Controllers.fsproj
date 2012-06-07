@@ -27,24 +27,36 @@
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;HTTPS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\Controllers.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LocalDebug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Debug\Controllers.XML</DocumentationFile>
+    <OutputPath>bin\LocalDebug\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <ItemGroup>
-    <None Include="DotNetOpenAuth.dll" />
-    <None Include="Newtonsoft.Json.dll" />
-    <Compile Include="Model.fs" />
+    <Compile Include="OpenIDController.fsi" />
+    <Compile Include="OpenIDController.fs" />
+    <Compile Include="AJAXController.fs" />
+    <Compile Include="APIController.fs" />
+    <Compile Include="DatawareController.fs" />
+    <Compile Include="EntryController.fs" />
     <Compile Include="ReceiverController.fs" />
     <Compile Include="WebController.fs" />
-    <Compile Include="APIController.fs" />
     <Compile Include="AssemblyInfo.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DotNetOpenAuth">
-      <HintPath>DotNetOpenAuth.dll</HintPath>
+      <HintPath>..\Resources\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime">
       <HintPath>C:\Program Files\Windows Azure SDK\v1.5\ref\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
@@ -58,7 +70,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Resources\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

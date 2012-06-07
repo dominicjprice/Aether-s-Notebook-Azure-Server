@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Aether_s_Notebook_Azure_Server" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
+  <WebRole name="Web">
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+      <Setting name="DataContextConnectionString" />
+      <Setting name="Dataware.Description" />
+      <Setting name="Dataware.LogoUri" />
+      <Setting name="Dataware.Namespace" />
+      <Setting name="Dataware.ResourceName" />
+      <Setting name="Dataware.ResourceUri" />
+      <Setting name="Dataware.WebUri" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="UploadedDataContainer" />
+      <Setting name="UploadedDataQueue" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="http" protocol="http" port="80" localPort="80" />
+    </Endpoints>
+    <Certificates />
+  </WebRole>
+  <WorkerRole name="UploadWorker">
+    <LocalResources>
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+      <Setting name="DataContextConnectionString" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="UnrecognisedDataContainer" />
+      <Setting name="UploadedDataContainer" />
+      <Setting name="UploadedDataQueue" />
+    </ConfigurationSettings>
+    <Endpoints />
+    <Certificates />
+  </WorkerRole>
+</ServiceDefinition>
